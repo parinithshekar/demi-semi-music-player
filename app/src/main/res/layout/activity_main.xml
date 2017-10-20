@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.parinith.cmanalready.MainActivity">
+
+    <TextView
+        android:id="@+id/songs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SONGS"
+        android:textSize="40sp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/playlists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PLAYLISTS"
+        android:textSize="40sp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/albums"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ALBUMS"
+        android:textSize="40sp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/artists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ARTISTS"
+        android:textSize="40sp"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/now_playing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Now Playing"/>
+
+</LinearLayout>
