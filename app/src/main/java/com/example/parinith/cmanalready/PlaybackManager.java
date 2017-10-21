@@ -54,7 +54,7 @@ public class PlaybackManager {
         }
         else {
 
-            if(mMediaPlayer.getCurrentPosition()>0) {
+            if(!mMediaPlayer.isPlaying() && mMediaPlayer.getCurrentPosition()>0) {
                 mMediaPlayer.start();
             }
 
