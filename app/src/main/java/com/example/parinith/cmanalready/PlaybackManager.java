@@ -24,9 +24,6 @@ public class PlaybackManager {
     MediaMetadataCompat mPresentSong;
     public MediaPlayer mMediaPlayer = new MediaPlayer();
 
-    //public static MediaPlayer getmMediaPlayer() {
-    //    return mMediaPlayer;
-    //}
 
     private PlaybackManager(QueueManager qm) {
         mQueueManager = qm;
@@ -53,24 +50,18 @@ public class PlaybackManager {
             return;
         }
         else {
-
-            if(!mMediaPlayer.isPlaying() && mMediaPlayer.getCurrentPosition()>0) {
+            mMediaPlayer.stop();
+            mMediaPlayer.reset();
+            try {
+                Log.d(TAG, "DataSource setting");
+                mMediaPlayer.setDataSource(mPresentSong.getString("PATH"));
+                Log.d(TAG, "DataSource set");
+                mMediaPlayer.prepare();
                 mMediaPlayer.start();
+            } catch (IOException Exception) {
+                Log.d(TAG, "onPlay-SetDataSource");
             }
 
-            else {
-                mMediaPlayer.stop();
-                mMediaPlayer.reset();
-                try {
-                    Log.d(TAG, "DataSource setting");
-                    mMediaPlayer.setDataSource(mPresentSong.getString("PATH"));
-                    Log.d(TAG, "DataSource set");
-                    mMediaPlayer.prepare();
-                    mMediaPlayer.start();
-                } catch (IOException Exception) {
-                    Log.d(TAG, "onPlay-SetDataSource");
-                }
-            }
         }
     }
 

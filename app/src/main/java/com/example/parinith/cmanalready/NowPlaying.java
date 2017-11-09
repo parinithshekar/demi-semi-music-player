@@ -118,10 +118,10 @@ public class NowPlaying extends AppCompatActivity {
             opts.inJustDecodeBounds= true;
             BitmapFactory.decodeByteArray(bitData, 0, bitData.length, opts);
             int srcWidth = opts.outWidth;
-            int dstWidth = 128;
+            int dstWidth = 300;
             opts.inJustDecodeBounds=false;
 
-            opts.inSampleSize=8;
+            opts.inSampleSize=4;
             opts.inScaled=true;
             opts.inDensity=srcWidth;
             opts.inTargetDensity=dstWidth * opts.inSampleSize;
