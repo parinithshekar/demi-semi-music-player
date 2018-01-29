@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
@@ -23,10 +24,10 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static android.os.Build.ID;
 
 /**
- * Created by parinith on 10/15/17.
+ * Created by parinith AND RAGHAV on 10/15/17.
  */
 
-public class MusicProvider {
+public class MusicProvider extends AsyncTask {
 
     private static MusicProvider mMusicProviderInstance = new MusicProvider();
 
@@ -38,11 +39,11 @@ public class MusicProvider {
     private TreeMap<String, ArrayList<MediaMetadataCompat>> musicByPlaylists = new TreeMap<>();
     private static Context mContext;
 
-    private enum State {
+    public enum State {
         INITIALIZED, INITIALIZING, NOT_INITIALIZED
     };
 
-    private volatile State mCurrentState = State.NOT_INITIALIZED;
+    public volatile State mCurrentState = State.NOT_INITIALIZED;
 
     public MusicProvider() {
     }
@@ -50,6 +51,12 @@ public class MusicProvider {
     public static MusicProvider getMusicProviderInstance(Activity context) {
         mContext = context;
         return mMusicProviderInstance;
+    }
+
+    @Override
+    protected Object doInBackground(Object[] objects) {
+        retrieveMusic();
+        return null;
     }
 
     public void retrieveMusic(){
@@ -102,7 +109,10 @@ public class MusicProvider {
         Log.d(TAG, "getMusic() called");
         if(mCurrentState==State.INITIALIZED)
             return music;
-        retrieveMusic();
+        if(mCurrentState!=State.INITIALIZING)
+            retrieveMusic();
+        while(mCurrentState==State.INITIALIZING)
+            continue;
         if(mCurrentState==State.INITIALIZED)
             return music;
         return null;
@@ -129,8 +139,10 @@ public class MusicProvider {
     }
 
     public TreeMap<String, ArrayList<MediaMetadataCompat>> getMusicByAlbums() {
-        if(mCurrentState!=State.INITIALIZED)
+        if(mCurrentState==State.NOT_INITIALIZED)
             retrieveMusic();
+        while(mCurrentState==State.INITIALIZING)
+            continue;
         if(musicByAlbums.size()==0)
             buildAlbums();
         if(mCurrentState==State.INITIALIZED && musicByAlbums.size()!=0) {
@@ -161,8 +173,10 @@ public class MusicProvider {
     }
 
     public TreeMap<String, ArrayList<MediaMetadataCompat>> getMusicByArtists() {
-        if(mCurrentState!=State.INITIALIZED)
+        if(mCurrentState==State.NOT_INITIALIZED)
             retrieveMusic();
+        while(mCurrentState==State.INITIALIZING)
+            continue;
         if(musicByArtists.size()==0)
             buildArtists();
         if(mCurrentState==State.INITIALIZED && musicByArtists.size()!=0) {

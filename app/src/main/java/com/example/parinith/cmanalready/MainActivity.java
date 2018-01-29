@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MusicProvider mMusicProvider = MusicProvider.getMusicProviderInstance(this);
+        if(mMusicProvider.mCurrentState!= MusicProvider.State.INITIALIZED)
+            mMusicProvider.execute();
+
         TextView songs = (TextView)findViewById(R.id.songs);
         songs.setOnClickListener(new View.OnClickListener() {
             @Override
